@@ -5,6 +5,7 @@ module ActsAsTaggableOn
     ### ASSOCIATIONS:
 
     has_many :taggings, dependent: :destroy, class_name: '::ActsAsTaggableOn::Tagging'
+    has_one :tag_image
 
     ### VALIDATIONS:
 
