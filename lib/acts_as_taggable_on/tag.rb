@@ -104,6 +104,16 @@ module ActsAsTaggableOn
       read_attribute(:count).to_i
     end
 
+    def generate_tag_image
+      TagImage.create(tag_id: self.id,name: self.name, description: self.description)
+    end
+    
+    def generate_uuid!
+        begin
+            self.uuid = SecureRandom.hex(16)
+        end while Tag.find_by_uid(self.uuid).present?
+    end
+      
     class << self
 
 
@@ -144,16 +154,6 @@ module ActsAsTaggableOn
         else
           sanitize_sql(['LOWER(name) = LOWER(?)', as_8bit_ascii(unicode_downcase(tag))])
         end
-      end
-      
-      def generate_tag_image
-        TagImage.create(tag_id: self.id,name: self.name, description: self.description)
-      end
-      
-      def generate_uuid!
-          begin
-              self.uuid = SecureRandom.hex(16)
-          end while Tag.find_by_uid(self.uuid).present?
       end
       
     end
