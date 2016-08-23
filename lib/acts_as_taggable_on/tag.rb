@@ -147,7 +147,7 @@ module ActsAsTaggableOn
       end
       
       def generate_tag_image
-        TagImage.create(tag_id: self.id,name: self.name)
+        TagImage.create(tag_id: self.id,name: self.name, description: self.description)
       end
       
       def generate_uuid!
