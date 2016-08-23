@@ -1,6 +1,10 @@
 # encoding: utf-8
 module ActsAsTaggableOn
   class Tag < ::ActiveRecord::Base
+    
+    ### Utilities
+    after_create :generate_tag_image, :on => :create
+    before_validation :generate_uuid!, :on => :create
 
     ### ASSOCIATIONS:
 
@@ -141,6 +145,17 @@ module ActsAsTaggableOn
           sanitize_sql(['LOWER(name) = LOWER(?)', as_8bit_ascii(unicode_downcase(tag))])
         end
       end
+      
+      def generate_tag_image
+        TagImage.create(tag_id:self.id)
+      end
+      
+      def generate_uuid!
+          begin
+              self.uuid = SecureRandom.hex(16)
+          end while Tag.find_by_uid(self.uuid).present?
+      end
+      
     end
   end
 end
