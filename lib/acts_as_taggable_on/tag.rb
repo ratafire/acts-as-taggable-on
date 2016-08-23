@@ -111,7 +111,7 @@ module ActsAsTaggableOn
     def generate_uuid!
         begin
             self.uuid = SecureRandom.hex(16)
-        end while Tag.find_by_uid(self.uuid).present?
+        end while Tag.find_by_uuid(self.uuid).present?
     end
       
     class << self
